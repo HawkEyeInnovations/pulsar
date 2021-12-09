@@ -222,14 +222,10 @@ if (MSVC)
   set(BOOST_COMPONENTS ${BOOST_COMPONENTS} date_time)
 endif()
 
-if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-    # GCC 4.8.2 implementation of std::regex is buggy
-    set(BOOST_COMPONENTS ${BOOST_COMPONENTS} regex)
-    set(CMAKE_CXX_FLAGS " -DPULSAR_USE_BOOST_REGEX")
-    MESSAGE(STATUS "Using Boost::Regex")
-else()
-    MESSAGE(STATUS "Using std::regex")
-endif()
+# Using boost regex, because std regex goes wrong for some reason
+set(BOOST_COMPONENTS ${BOOST_COMPONENTS} regex)
+set(CMAKE_CXX_FLAGS " -DPULSAR_USE_BOOST_REGEX")
+MESSAGE(STATUS "Using Boost::Regex")
 
 if(BUILD_PERF_TOOLS)
     set(BOOST_COMPONENTS ${BOOST_COMPONENTS} program_options)
